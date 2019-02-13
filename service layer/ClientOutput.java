@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ClientOutput extends Thread{
 
 	/********************DATA MEMBERS*******************************/
-	private Socket socket;
+	private Client client;
     private ObjectOutputStream output ;
     private Message messageToBeSent ;
     private Connection connection;
@@ -17,11 +17,11 @@ public class ClientOutput extends Thread{
     /*
     * @param: The Socket of the current client.
     * */
-    ClientOutput(Socket socket){
-		this.socket=socket;
+    ClientOutput(Client client){
+		this.client=client;
         scanner = new Scanner(System.in);
         try{
-            output = new ObjectOutputStream(socket.getOutputStream());
+            output = new ObjectOutputStream(client.getSocket().getOutputStream());
         }
         catch(Exception ioe){
             System.out.println(ioe);
@@ -40,7 +40,8 @@ public class ClientOutput extends Thread{
             {
                 System.out.println("Enter the message you want to sent:");
                 msg = scanner.nextLine();
-                messageToBeSent = new Message("Client1", "Client2", msg);
+	            System.out.println(client.getClientName());
+                messageToBeSent = new Message(client.getClientName(),"puja" , msg);
                 output.writeObject(messageToBeSent);
                 if(messageToBeSent.getMessage().equalsIgnoreCase("exit")){
                     System.out.println("Im exiting");
@@ -54,7 +55,7 @@ public class ClientOutput extends Thread{
     	finally{
 			try{
 				output.close();
-                socket.close();
+                client.getSocket().close();
 			}catch(IOException e){
 				System.out.println("Issue from finally block client output : "+e);
 			}

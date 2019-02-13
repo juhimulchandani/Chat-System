@@ -5,15 +5,17 @@ import java.net.Socket;
 public class ClientInput extends Thread{
 
 	/********************DATA MEMBERS*******************************/
-	private Socket socket;
+//	private Socket socket ;
+	private Client client;
     private Message messageObject;
 
 	/********************CONSTRUCTOR****************************/
 	/*
 	* @param: The Socket of the current client.
 	* */
-	ClientInput(Socket socket){
-		this.socket=socket;
+	ClientInput(Client client){
+//		this.socket = socket;
+		this.client=client;
 	}
 
 	/*****************METHODS****************/
@@ -25,7 +27,7 @@ public class ClientInput extends Thread{
     public void run(){
     	try{
             System.out.println("Inside input ka run");
-    		ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+    		ObjectInputStream input = new ObjectInputStream(client.getSocket().getInputStream());
             System.out.println("Stream banay");
     		do{
                 System.out.println("While me aaya");
@@ -44,7 +46,7 @@ public class ClientInput extends Thread{
     	}
     	finally{
 			try{
-				socket.close();
+				client.getSocket().close();
 			}catch(IOException e){
 				System.out.println("Issue from input finally ka catch: "+e);
 			}

@@ -18,7 +18,7 @@ public class ServerOutput extends Thread {
         }
         catch(Exception ioe)
         {
-            System.out.println(ioe);
+            System.out.println("issue from server output : "+ioe);
         }
 	}
 }

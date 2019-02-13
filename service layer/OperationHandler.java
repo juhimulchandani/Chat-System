@@ -1,6 +1,5 @@
 import java.net.Socket;
 import java.util.Vector;
-
 public class OperationHandler extends Thread {
 	/**********************DATA MEMBERS*********************/
 	private ServerOutput so;
@@ -17,11 +16,11 @@ public class OperationHandler extends Thread {
 	* @param: It accepts the client which is connected
 	* @param: It accpets the name of Client
 	* */
-	OperationHandler(ServerOutput so, ServerInput si, Socket clientSocket, String name){
+	OperationHandler(ServerOutput so, ServerInput si, Socket clientSocket){
 		this.so = so;
 		this.si = si;
 		this.clientSocket = clientSocket;
-		this.name = name;
+		System.out.println(this.clientSocket);
 	}
 
 	/***********************METHODS************************/
@@ -38,7 +37,7 @@ public class OperationHandler extends Thread {
 					System.out.println("exiting ");
 					break;
 				}
-				System.out.println("Accepting the message:" + mo.getMessage());
+				System.out.println("Accepting the message from "+mo.getSender()+":" + mo.getMessage());
 
 
 				Vector records = Connection.getRecords();
@@ -47,7 +46,7 @@ public class OperationHandler extends Thread {
 
 					System.out.println("inside for printing names");
 					OperationHandler obj = (OperationHandler) records.elementAt(i);
-					System.out.println(obj.name);
+//					System.out.println(obj.name);
 					if (obj.name.equals(mo.getReceiver())) {
 						obj.so.output.writeObject(mo);
 					}
